@@ -1,18 +1,18 @@
-job('maven_dsl') {
+job('maven_fs_dsl') {
 
-    description('Maven dsl project')
+    description('Maven dsl project using git file')
 
     scm {
-        git('https://github.com/jenkins-docs/simple-java-maven-app', 'master', {node -> node / 'extensions' << '' })
+        git('https://github.com/Vikas0612/simple-java-maven-app.git', 'master', {node -> node / 'extensions' << '' })
     }
 
     steps {
         maven {
-            mavenInstallation('maven')
+            mavenInstallation('Local Maven')
             goals('-B -DskipTests clean package')
         }
         maven {
-            mavenInstallation('maven')
+            mavenInstallation('Local Maven')
             goals('test')
         }
         shell('''
@@ -24,7 +24,7 @@ job('maven_dsl') {
     publishers {
         archiveArtifacts('target/*.jar')
         archiveJunit('target/surefire-reports/*.xml')
-        mailer('valaxytech@gmail.com', true, true)
+        mailer('valaxy@gmail.com', true, true)
     }
 }
 
